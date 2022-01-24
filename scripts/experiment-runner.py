@@ -180,7 +180,7 @@ def main(ipath, opath, print_results):
             tests = pickle.load(f)
         for test in tests:
             for function_file, results in test.results.items():
-                print(f'{test.binary_path}:')
+                print(f'{test.binary_path}:{function_file}')
                 for trained_binary, function_similarities in results.items():
                     print(f'\t{trained_binary.binary_path}:')
                     index = min(3, len(function_similarities))
