@@ -42,16 +42,16 @@ def cosine_similarity(v1, v2):
 
 
 def generate_assembly(binary: str, output_dir: str):
-    print(f"Generating assembly for {binary}")
     bin2asm_path = os.path.join(os.path.dirname(__file__), 'bin2asm.py')
     cmd = ['python3', bin2asm_path, '-i', binary, '-o', output_dir]
+    print(f"Generating assembly for {binary} using {' '.join(cmd)}")
     subprocess.run(cmd, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
 
 def generate_model(function_path: str, model_path: str):
-    print(f"Generating model {model_path}")
     train_path = os.path.join(os.path.dirname(__file__), 'train.py')
     cmd = ['python3', train_path, '-i', function_path, '-o', model_path, '--epochs', 100]
+    print(f"Generating model {model_path} using {' '.join(cmd)}")
     subprocess.run(cmd, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
 
