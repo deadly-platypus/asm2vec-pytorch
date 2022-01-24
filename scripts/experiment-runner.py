@@ -105,6 +105,12 @@ def main(ipath, opath):
                                                   'asm')
             if not os.path.exists(training.binary_path):
                 raise FileNotFoundError(training.binary_path)
+
+            if not os.path.exists(training.function_path):
+                os.makedirs(training.function_path, exist_ok=True)
+            if not os.path.exists(os.path.dirname(training.model_path)):
+                os.makedirs(os.path.dirname(training.model_path), exist_ok=True)
+
             trainings.append(training)
 
     tests = list()
@@ -119,6 +125,8 @@ def main(ipath, opath):
 
             if not os.path.exists(test_bin.binary_path):
                 raise FileNotFoundError(test_bin.binary_path)
+            if not os.path.exists(test_bin.function_path):
+                os.makedirs(test_bin.function_path, exist_ok=True)
 
             tests.append(test_bin)
 
