@@ -132,7 +132,8 @@ def main(ipath, opath):
 
     for training in trainings:
         generate_assembly(training.binary_path, training.function_path)
-        generate_model(training.function_path, training.model_path)
+        if not os.path.exists(training.model_path):
+            generate_model(training.function_path, training.model_path)
     for test in tests:
         generate_assembly(test.binary_path, test.function_path)
 
