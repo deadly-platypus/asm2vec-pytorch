@@ -1,0 +1,170 @@
+training:
+  - name: build-gcc-O0
+    root_dir: /home/derrick/code/coreutils/build-gcc-O0/src
+    binaries:
+      - wc
+      - realpath
+      - uniq
+    dest_path: eval/
+  - name: build-gcc-O1
+    root_dir: /home/derrick/code/coreutils/build-gcc-O1/src
+    binaries:
+      - wc
+      - realpath
+      - uniq
+    dest_path: eval/
+  - name: build-gcc-O2
+    root_dir: /home/derrick/code/coreutils/build-gcc-O2/src
+    binaries:
+      - wc
+      - realpath
+      - uniq
+    dest_path: eval/
+  - name: build-gcc-O3
+    root_dir: /home/derrick/code/coreutils/build-gcc-O3/src
+    binaries:
+      - wc
+      - realpath
+      - uniq
+    dest_path: eval/
+  - name: build-clang-O0
+    root_dir: /home/derrick/code/coreutils/build-clang-O0/src
+    binaries:
+      - wc
+      - realpath
+      - uniq
+    dest_path: eval/
+  - name: build-clang-O1
+    root_dir: /home/derrick/code/coreutils/build-clang-O1/src
+    binaries:
+      - wc
+      - realpath
+      - uniq
+    dest_path: eval/
+  - name: build-clang-O2
+    root_dir: /home/derrick/code/coreutils/build-clang-O2/src
+    binaries:
+      - wc
+      - realpath
+      - uniq
+    dest_path: eval/
+  - name: build-clang-O3
+    root_dir: /home/derrick/code/coreutils/build-clang-O3/src
+    binaries:
+      - wc
+      - realpath
+      - uniq
+    dest_path: eval/
+experiments:
+  - name: build-gcc-O0
+    root_dir: /home/derrick/code/coreutils/build-gcc-O0/src
+    binaries:
+      - du
+      - dir
+      - ls
+      - ptx
+      - sort
+      - true
+      - logname
+      - whoami
+      - uname
+      - dirname
+    dest_path: eval/
+  - name: build-gcc-O1
+    root_dir: /home/derrick/code/coreutils/build-gcc-O1/src
+    binaries:
+      - du
+      - dir
+      - ls
+      - ptx
+      - sort
+      - true
+      - logname
+      - whoami
+      - uname
+      - dirname
+    dest_path: eval/
+  - name: build-gcc-O2
+    root_dir: /home/derrick/code/coreutils/build-gcc-O2/src
+    binaries:
+      - du
+      - dir
+      - ls
+      - ptx
+      - sort
+      - true
+      - logname
+      - whoami
+      - uname
+      - dirname
+    dest_path: eval/
+  - name: build-gcc-O3
+    root_dir: /home/derrick/code/coreutils/build-gcc-O3/src
+    binaries:
+      - du
+      - dir
+      - ls
+      - ptx
+      - sort
+      - true
+      - logname
+      - whoami
+      - uname
+      - dirname
+    dest_path: eval/
+  - name: build-clang-O0
+    root_dir: /home/derrick/code/coreutils/build-clang-O0/src
+    binaries:
+      - du
+      - dir
+      - ls
+      - ptx
+      - sort
+      - true
+      - logname
+      - whoami
+      - uname
+      - dirname
+    dest_path: eval/
+  - name: build-clang-O1
+    root_dir: /home/derrick/code/coreutils/build-clang-O1/src
+    binaries:
+      - du
+      - dir
+      - ls
+      - ptx
+      - sort
+      - true
+      - logname
+      - whoami
+      - uname
+      - dirname
+    dest_path: eval/
+  - name: build-clang-O2
+    root_dir: /home/derrick/code/coreutils/build-clang-O2/src
+    binaries:
+      - du
+      - dir
+      - ls
+      - ptx
+      - sort
+      - true
+      - logname
+      - whoami
+      - uname
+      - dirname
+    dest_path: eval/
+  - name: build-clang-O3
+    root_dir: /home/derrick/code/coreutils/build-clang-O3/src
+    binaries:
+      - du
+      - dir
+      - ls
+      - ptx
+      - sort
+      - true
+      - logname
+      - whoami
+      - uname
+      - dirname
+    dest_path: eval/
