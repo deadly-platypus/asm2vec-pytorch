@@ -45,8 +45,7 @@ def generate_assembly(binary: str, output_dir: str):
     bin2asm_path = os.path.join(os.path.dirname(__file__), 'bin2asm.py')
     cmd = ['python3', bin2asm_path, '-i', binary, '-o', output_dir]
     print(f"Generating assembly for {binary} using {' '.join(cmd)}")
-    subprocess.run(cmd, check=True, capture_output=True,
-                   stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    subprocess.run(cmd, check=True, capture_output=True)
 
 
 def generate_model(function_path: str, model_path: str):
@@ -54,8 +53,7 @@ def generate_model(function_path: str, model_path: str):
     cmd = ['python3', train_path, '-i', function_path, '-o', model_path, '--epochs',
            str(100)]
     print(f"Generating model {model_path} using {' '.join(cmd)}")
-    subprocess.run(cmd, check=True, capture_output=True,
-                   stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    subprocess.run(cmd, check=True, capture_output=True)
 
 
 def compare_functions(func1, func2, mpath):
