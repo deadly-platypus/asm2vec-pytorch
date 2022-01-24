@@ -127,25 +127,25 @@ def main(ipath, opath):
                 raise FileNotFoundError(test_bin.binary_path)
             if not os.path.exists(test_bin.function_path):
                 os.makedirs(test_bin.function_path, exist_ok=True)
-
             tests.append(test_bin)
 
-    for training in trainings:
-        generate_assembly(training.binary_path, training.function_path)
-        if not os.path.exists(training.model_path):
-            generate_model(training.function_path, training.model_path)
-    for test in tests:
-        generate_assembly(test.binary_path, test.function_path)
+    # for training in trainings:
+    #     generate_assembly(training.binary_path, training.function_path)
+    #     if not os.path.exists(training.model_path):
+    #         generate_model(training.function_path, training.model_path)
+    # for test in tests:
+    #     generate_assembly(test.binary_path, test.function_path)
 
     for training in trainings:
         for test in tests:
             print(f"Comparing {training.binary_path} with {test.binary_path}")
-            for training_root, _, training_funcs in os.walk(training.function_path):
-                for test_root, _, test_funcs in os.walk(test.function_path):
+            for _, _, training_funcs in os.walk(training.function_path):
+                for _, _, test_funcs in os.walk(test.function_path):
                     for training_func in training_funcs:
                         for test_func in test_funcs:
-                            training_func = os.path.join(training_root, training_func)
-                            test_func = os.path.join(test_root, test_func)
+                            training_func = os.path.join(training.binary_path,
+                                                         training_func)
+                            test_func = os.path.join(test.function_path, test_func)
                             similarity = compare_functions(training_func, test_func,
                                                            training.model_path)
                             training.add_result(training_func, test_func, similarity)
