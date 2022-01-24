@@ -94,7 +94,7 @@ def compare_functions(func1, func2, mpath):
 @click.option('-i', '--input', 'ipath', help='input yaml', required=True)
 @click.option('-o', '--output', 'opath', help='output object')
 @click.option('-p', '--print-results', 'print_results',
-              help='Run experiment or print results', default=False)
+              help='Run experiment or print results', default=False, is_flag=True)
 def main(ipath, opath, print_results):
     if not print_results:
         if opath is None:
