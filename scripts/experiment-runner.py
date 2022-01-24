@@ -185,7 +185,7 @@ def main(ipath, opath, print_results):
                     print(f'\t{trained_binary.binary_path}:')
                     index = min(3, len(function_similarities))
                     for trained_func, similarity in sorted(function_similarities.items(),
-                                                           reverse=False,
+                                                           reverse=True,
                                                            key=lambda a: a[1]):
                         print(f'\t\t{trained_func}: {similarity}')
                         index -= 1
