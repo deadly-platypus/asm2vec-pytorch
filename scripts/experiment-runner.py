@@ -142,6 +142,7 @@ def main(ipath, opath):
             print(f"Comparing {training.binary_path} with {test.binary_path}")
             for training_root, _, training_func in os.walk(training.function_path):
                 for test_root, _, test_func in os.walk(test.function_path):
+                    print(f"\t{training_func} <-> {test_func}")
                     similarity = compare_functions(training_func, test_func,
                                                    training.model_path)
                     training.add_result(os.path.join(training_root, training_func),
