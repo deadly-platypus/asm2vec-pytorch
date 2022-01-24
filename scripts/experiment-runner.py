@@ -50,7 +50,8 @@ def generate_assembly(binary: str, output_dir: str):
 
 def generate_model(function_path: str, model_path: str):
     train_path = os.path.join(os.path.dirname(__file__), 'train.py')
-    cmd = ['python3', train_path, '-i', function_path, '-o', model_path, '--epochs', 100]
+    cmd = ['python3', train_path, '-i', function_path, '-o', model_path, '--epochs',
+           str(100)]
     print(f"Generating model {model_path} using {' '.join(cmd)}")
     subprocess.run(cmd, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
