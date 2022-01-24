@@ -195,7 +195,7 @@ def main(ipath, opath, print_results):
                 function_name = get_asm_function_name(function_file)
                 print(f"\t{function_name}: ")
                 for trained_binary, function_similarities in results.items():
-                    index = min(3, len(function_similarities))
+                    index = 0
                     found = False
                     found_similarity = None
                     for trained_func, similarity in sorted(function_similarities.items(),
@@ -207,13 +207,11 @@ def main(ipath, opath, print_results):
                             found_similarity = similarity
                             break
 
-                        index -= 1
-                        if index <= 0:
-                            break
-                    if found:
+                        index += 1
+                    if found and index < 1:
                         print(f"\t\t{trained_binary.binary_path}: Y! {found_similarity}")
                     else:
-                        print(f"\t\t{trained_binary.binary_path}: N!")
+                        print(f"\t\t{trained_binary.binary_path}: N! {index}")
 
 
 if __name__ == '__main__':
