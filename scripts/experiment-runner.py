@@ -140,13 +140,15 @@ def main(ipath, opath):
     for training in trainings:
         for test in tests:
             print(f"Comparing {training.binary_path} with {test.binary_path}")
-            for training_root, _, training_func in os.walk(training.function_path):
-                for test_root, _, test_func in os.walk(test.function_path):
-                    print(f"\t{training_func} <-> {test_func}")
-                    similarity = compare_functions(training_func, test_func,
-                                                   training.model_path)
-                    training.add_result(os.path.join(training_root, training_func),
-                                        os.path.join(test_root, test_func), similarity)
+            for training_root, _, training_funcs in os.walk(training.function_path):
+                for test_root, _, test_funcs in os.walk(test.function_path):
+                    for training_func in training_funcs:
+                        for test_func in test_funcs:
+                            similarity = compare_functions(training_func, test_func,
+                                                           training.model_path)
+                            training.add_result(os.path.join(training_root, training_func),
+                                                os.path.join(test_root, test_func),
+                                                similarity)
     with open(opath, 'wb') as f:
         pickle.dump(trainings, f)
 
