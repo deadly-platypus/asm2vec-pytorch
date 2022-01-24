@@ -151,8 +151,9 @@ def main(ipath, opath):
                                                          os.path.join(test.function_path, test_func),
                                                          training.model_path): test_func for test_func in test_funcs}
                             for future in concurrent.futures.as_completed(completed):
-                                test_func = completed[future]
-                                print(f"Completed {test_func}")
+                                test_func = os.path.join(test.function_path,
+                                                         completed[future])
+                                print(f"Completed {test_func}: {future.result()}")
                                 training.add_result(training_func, test_func,
                                                     future.result())
                         # for test_func in test_funcs:
