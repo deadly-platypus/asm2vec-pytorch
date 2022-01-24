@@ -139,6 +139,7 @@ def main(ipath, opath):
     for training in trainings:
         for test in tests:
             print(f"Comparing {training.binary_path} with {test.binary_path}")
+            completed_count = 0
             for _, _, training_funcs in os.walk(training.function_path):
                 for _, _, test_funcs in os.walk(test.function_path):
                     for training_func in training_funcs:
@@ -149,6 +150,8 @@ def main(ipath, opath):
                             similarity = compare_functions(training_func, test_func,
                                                            training.model_path)
                             training.add_result(training_func, test_func, similarity)
+                    completed_count += 1
+                    print(f"Completed {completed_count} / {len(training_funcs)}")
     with open(opath, 'wb') as f:
         pickle.dump(trainings, f)
 
