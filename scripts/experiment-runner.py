@@ -62,7 +62,6 @@ def compare_functions(func1, func2, mpath):
     lr = 0.02
 
     # load model, tokens
-    print(f"{func1} <-> {func2}")
     model, tokens = asm2vec.utils.load_model(mpath, device=device)
     functions, tokens_new = asm2vec.utils.load_data([func1, func2])
     tokens.update(tokens_new)
@@ -143,10 +142,9 @@ def main(ipath, opath):
             for _, _, training_funcs in os.walk(training.function_path):
                 for _, _, test_funcs in os.walk(test.function_path):
                     for training_func in training_funcs:
+                        training_func = os.path.join(training.function_path,
+                                                     training_func)
                         for test_func in test_funcs:
-                            print(f'{training_func} <-> {test_func}')
-                            training_func = os.path.join(training.function_path,
-                                                         training_func)
                             test_func = os.path.join(test.function_path, test_func)
                             similarity = compare_functions(training_func, test_func,
                                                            training.model_path)
