@@ -67,6 +67,7 @@ def compare_functions(func1, func2, mpath):
     epochs = 10
     lr = 0.02
 
+    print(f'{func1} <-> {func2}')
     # load model, tokens
     model, tokens = asm2vec.utils.load_model(mpath, device=device)
     functions, tokens_new = asm2vec.utils.load_data([func1, func2])
