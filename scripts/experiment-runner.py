@@ -161,7 +161,7 @@ def main(ipath, opath, print_results):
                             max_workers=multiprocessing.cpu_count()) as executor:
                         completed = {executor.submit(compare_functions, test_func,
                                                      training_func,
-                                                     training.model_path): training_funcs
+                                                     training.model_path): training_func
                                      for training_func in training_funcs}
                         for future in concurrent.futures.as_completed(completed):
                             training_func = completed[future]
