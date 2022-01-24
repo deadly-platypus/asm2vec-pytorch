@@ -64,7 +64,7 @@ experiments:
       - ls
       - ptx
       - sort
-      - true
+      - "true"
       - logname
       - whoami
       - uname
@@ -78,7 +78,7 @@ experiments:
       - ls
       - ptx
       - sort
-      - true
+      - "true"
       - logname
       - whoami
       - uname
@@ -92,7 +92,7 @@ experiments:
       - ls
       - ptx
       - sort
-      - true
+      - "true"
       - logname
       - whoami
       - uname
@@ -106,7 +106,7 @@ experiments:
       - ls
       - ptx
       - sort
-      - true
+      - "true"
       - logname
       - whoami
       - uname
@@ -120,7 +120,7 @@ experiments:
       - ls
       - ptx
       - sort
-      - true
+      - "true"
       - logname
       - whoami
       - uname
@@ -134,7 +134,7 @@ experiments:
       - ls
       - ptx
       - sort
-      - true
+      - "true"
       - logname
       - whoami
       - uname
@@ -148,7 +148,7 @@ experiments:
       - ls
       - ptx
       - sort
-      - true
+      - "true"
       - logname
       - whoami
       - uname
@@ -162,7 +162,7 @@ experiments:
       - ls
       - ptx
       - sort
-      - true
+      - "true"
       - logname
       - whoami
       - uname

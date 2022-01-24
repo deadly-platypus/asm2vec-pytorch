@@ -106,7 +106,7 @@ def main(ipath, opath):
                 raise FileNotFoundError(training.binary_path)
             trainings.append(training)
 
-    tests = list();
+    tests = list()
     for yaml_test in experiment_yaml['experiments']:
         test_name = yaml_test['name']
         root_name = yaml_test['root_dir']
