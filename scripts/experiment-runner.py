@@ -17,7 +17,7 @@ class Training:
         self.function_path = None
 
     def __hash__(self):
-        return hash(self.model_path, self.binary_path, self.function_path)
+        return hash((self.model_path, self.binary_path, self.function_path))
 
     def __eq__(self, other):
         return self.binary_path == other.binary_path
@@ -37,7 +37,7 @@ class TestBinary:
         self.results[function_file][training][trained_func] = similarity
 
     def __hash__(self):
-        return hash(self.binary_path, self.function_path)
+        return hash((self.binary_path, self.function_path))
 
     def __eq__(self, other):
         return self.binary_path == other.binary_path
