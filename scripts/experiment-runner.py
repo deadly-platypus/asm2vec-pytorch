@@ -6,6 +6,7 @@ import torch
 import pickle
 import concurrent.futures
 import multiprocessing
+import re
 
 import asm2vec
 
@@ -45,6 +46,16 @@ class TestBinary:
 
 def cosine_similarity(v1, v2):
     return (v1 @ v2 / (v1.norm() * v2.norm())).item()
+
+
+def get_asm_function_name(function_path: str):
+    name_regex = re.compile('\.name ([\w\.]+)')
+    with open(function_path, 'r') as f:
+        for line in f.readlines():
+            match = name_regex.match(line.strip())
+            if match:
+                return match[1]
+    return ""
 
 
 def generate_assembly(binary: str, output_dir: str):
@@ -179,18 +190,32 @@ def main(ipath, opath, print_results):
         with open(ipath, 'rb') as f:
             tests = pickle.load(f)
         for test in tests:
+            print(f'{test.binary_path}:')
             for function_file, results in test.results.items():
-                print(f'{test.binary_path}:{function_file}')
+                function_name = get_asm_function_name(function_file)
                 for trained_binary, function_similarities in results.items():
                     print(f'\t{trained_binary.binary_path}:')
                     index = min(3, len(function_similarities))
+                    found = False
+                    found_similarity = None
                     for trained_func, similarity in sorted(function_similarities.items(),
                                                            reverse=True,
                                                            key=lambda a: a[1]):
-                        print(f'\t\t{trained_func}: {similarity}')
+                        candidate_name = get_asm_function_name(trained_func)
+                        if candidate_name == function_name:
+                            found = True
+                            found_similarity = similarity
+                            break
+
                         index -= 1
                         if index <= 0:
                             break
+                    print(f"\t{function_name}: ", end='')
+                    if found:
+                        print("Y!")
+                    else:
+                        print("N!")
+
 
 
 if __name__ == '__main__':
