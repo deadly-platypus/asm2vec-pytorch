@@ -193,7 +193,7 @@ def main(ipath, opath, print_results):
             print(f'{test.binary_path}:')
             for function_file, results in test.results.items():
                 function_name = get_asm_function_name(function_file)
-                print(f"\t{function_name}: ", end='')
+                print(f"\t{function_name}: ")
                 for trained_binary, function_similarities in results.items():
                     index = min(3, len(function_similarities))
                     found = False
