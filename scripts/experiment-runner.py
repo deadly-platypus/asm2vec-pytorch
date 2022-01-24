@@ -164,10 +164,15 @@ def main(ipath, opath, print_results):
                                      for training_func in training_funcs}
                         for future in concurrent.futures.as_completed(completed):
                             training_func = completed[future]
-                            print(f"Completed {training_func}: {future.result()}")
+                            try:
+                                print(f"Completed {training_func}: {future.result()}")
 
-                            test.add_function_similarity(test_func, training,
+                                test.add_function_similarity(test_func, training,
                                                          training_func, future.result())
+                            except Exception as e:
+                                print(f"Error identifying {test_func} using "
+                                      f"{training_func}")
+                                raise e
         with open(opath, 'wb') as f:
             pickle.dump(tests, f)
     else:
