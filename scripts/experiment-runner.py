@@ -144,11 +144,11 @@ def main(ipath, opath):
                 for test_root, _, test_funcs in os.walk(test.function_path):
                     for training_func in training_funcs:
                         for test_func in test_funcs:
+                            training_func = os.path.join(training_root, training_func)
+                            test_func = os.path.join(test_root, test_func)
                             similarity = compare_functions(training_func, test_func,
                                                            training.model_path)
-                            training.add_result(os.path.join(training_root, training_func),
-                                                os.path.join(test_root, test_func),
-                                                similarity)
+                            training.add_result(training_func, test_func, similarity)
     with open(opath, 'wb') as f:
         pickle.dump(trainings, f)
 
