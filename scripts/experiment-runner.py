@@ -111,7 +111,6 @@ def main(ipath, opath):
         test_name = yaml_test['name']
         root_name = yaml_test['root_dir']
         dest_path = yaml_test['dest_path']
-        tests[test_name] = list()
         for binary in yaml_test['binaries']:
             test_bin = TestBinary()
             test_bin.binary_path = os.path.join(root_name, binary)
