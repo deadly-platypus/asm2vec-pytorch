@@ -5,6 +5,7 @@ import subprocess
 import torch
 import pickle
 import concurrent.futures
+import multiprocessing
 
 import asm2vec
 
@@ -146,23 +147,22 @@ def main(ipath, opath):
                     for training_func in training_funcs:
                         training_func = os.path.join(training.function_path,
                                                      training_func)
-                        with concurrent.futures.ThreadPoolExecutor(max_workers=4) as executor:
+                        with concurrent.futures.ThreadPoolExecutor(
+                                max_workers=multiprocessing.cpu_count()) as executor:
                             completed = {executor.submit(compare_functions, training_func,
-                                                         os.path.join(test.function_path, test_func),
-                                                         training.model_path): test_func for test_func in test_funcs}
+                                                         os.path.join(test.function_path,
+                                                                      test_func),
+                                                         training.model_path): test_func
+                                         for test_func in test_funcs}
                             for future in concurrent.futures.as_completed(completed):
                                 test_func = os.path.join(test.function_path,
                                                          completed[future])
                                 print(f"Completed {test_func}: {future.result()}")
                                 training.add_result(training_func, test_func,
                                                     future.result())
-                        # for test_func in test_funcs:
-                        #     test_func = os.path.join(test.function_path, test_func)
-                        #     similarity = compare_functions(training_func, test_func,
-                        #                                    training.model_path)
-                        #     training.add_result(training_func, test_func, similarity)
-                    completed_count += 1
-                    print(f"Completed {completed_count} / {len(training_funcs)}")
+                        completed_count += 1
+                        print(f"Completed {training_func} ({completed_count} / "
+                              f"{len(training_funcs)})")
     with open(opath, 'wb') as f:
         pickle.dump(trainings, f)
 
