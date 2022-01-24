@@ -149,11 +149,12 @@ def main(ipath, opath, print_results):
             generate_assembly(test.binary_path, test.function_path)
 
         for test in tests:
-            test_funcs = [os.path.realpath(f) for f in os.listdir(test.function_path) if
+            test_funcs = [os.path.realpath(os.path.join(test.function_path, f)) for f
+                          in os.listdir(test.function_path) if
                           os.path.isfile(os.path.join(test.function_path, f))]
             for training in trainings:
-                training_funcs = [os.path.realpath(f) for f in
-                                  os.listdir(training.function_path) if
+                training_funcs = [os.path.realpath(os.path.join(training.function_path, f))
+                                  for f in os.listdir(training.function_path) if
                                   os.path.isfile(os.path.join(training.function_path, f))]
                 for test_func in test_funcs:
                     with concurrent.futures.ThreadPoolExecutor(
