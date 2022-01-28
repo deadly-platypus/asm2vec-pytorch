@@ -124,8 +124,9 @@ def main(ipath, opath, print_results, skip_assembly):
                 training.model_path = os.path.join(dest_path, training_name, binary,
                                                    "model.pt")
                 training.binary_path = os.path.join(root_name, binary)
-                training.function_path = os.path.join(os.path.dirname(training.model_path),
-                                                      'asm')
+                training.function_path = os.path.join(
+                    os.path.dirname(training.model_path),
+                    'asm')
                 if not os.path.exists(training.binary_path):
                     raise FileNotFoundError(training.binary_path)
 
@@ -161,14 +162,16 @@ def main(ipath, opath, print_results, skip_assembly):
             for test in tests:
                 generate_assembly(test.binary_path, test.function_path)
 
+        total_tests = 0
         for test in tests:
             test_funcs = [os.path.realpath(os.path.join(test.function_path, f)) for f
                           in os.listdir(test.function_path) if
                           os.path.isfile(os.path.join(test.function_path, f))]
             for training in trainings:
-                training_funcs = [os.path.realpath(os.path.join(training.function_path, f))
-                                  for f in os.listdir(training.function_path) if
-                                  os.path.isfile(os.path.join(training.function_path, f))]
+                training_funcs = [
+                    os.path.realpath(os.path.join(training.function_path, f))
+                    for f in os.listdir(training.function_path) if
+                    os.path.isfile(os.path.join(training.function_path, f))]
                 for test_func in test_funcs:
                     with concurrent.futures.ThreadPoolExecutor(
                             max_workers=multiprocessing.cpu_count()) as executor:
@@ -180,18 +183,20 @@ def main(ipath, opath, print_results, skip_assembly):
                             training_func = completed[future]
                             try:
                                 print(f"Completed {training_func}: {future.result()}")
+                                total_tests += 1
 
                                 test.add_function_similarity(test_func, training,
-                                                         training_func, future.result())
+                                                             training_func,
+                                                             future.result())
                             except Exception as e:
                                 print(f"Error identifying {test_func} using "
                                       f"{training_func}")
-                                raise e
         with open(opath, 'wb') as f:
             pickle.dump(tests, f)
     else:
         with open(ipath, 'rb') as f:
             tests = pickle.load(f)
+        total_tests = 0
         for test in tests:
             print(f'{test.binary_path}:')
             for function_file, results in test.results.items():
@@ -215,6 +220,8 @@ def main(ipath, opath, print_results, skip_assembly):
                         print(f"\t\t{trained_binary.binary_path}: Y! {found_similarity}")
                     else:
                         print(f"\t\t{trained_binary.binary_path}: N! {index}")
+                    total_tests += 1
+        print(f"Total tests: {total_tests}")
 
 
 if __name__ == '__main__':
