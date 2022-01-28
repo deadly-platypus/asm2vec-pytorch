@@ -226,8 +226,7 @@ def main(ipath, opath, print_results, skip_assembly):
                     if found and index < 1:
                         print(f"\t\t{trained_binary.binary_path}: Y! {found_similarity}")
                     else:
-                        print(f"\t\t{trained_binary.binary_path}: N! {index}")
-                    total_tests += 1
+                        print(f"\t\t{trained_binary.binary_path}: N! {index} / {len(results)}")
         print(f"Total tests: {total_tests}")
 
 
