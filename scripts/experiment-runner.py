@@ -7,6 +7,7 @@ import pickle
 import concurrent.futures
 import multiprocessing
 import re
+import time
 
 import asm2vec
 
@@ -163,6 +164,7 @@ def main(ipath, opath, print_results, skip_assembly):
                 generate_assembly(test.binary_path, test.function_path)
 
         total_tests = 0
+        start = time.time()
         for test in tests:
             test_funcs = [os.path.realpath(os.path.join(test.function_path, f)) for f
                           in os.listdir(test.function_path) if
@@ -191,6 +193,9 @@ def main(ipath, opath, print_results, skip_assembly):
                             except Exception as e:
                                 print(f"Error identifying {test_func} using "
                                       f"{training_func}")
+        end = time.time()
+        print(f"Total tests: {total_tests}")
+        print(f"Total time: {end - start} seconds")
         with open(opath, 'wb') as f:
             pickle.dump(tests, f)
     else:
