@@ -106,7 +106,8 @@ def compare_functions(func1, func2, mpath):
 @click.option('-o', '--output', 'opath', help='output object')
 @click.option('-p', '--print-results', 'print_results',
               help='Run experiment or print results', default=False, is_flag=True)
-def main(ipath, opath, print_results):
+@click.option('--skip-assembly', 'skip_assembly', default=False, is_flag=True)
+def main(ipath, opath, print_results, skip_assembly):
     if not print_results:
         if opath is None:
             raise RuntimeError("Output must be specified")
@@ -152,11 +153,13 @@ def main(ipath, opath, print_results):
                 tests.append(test_bin)
 
         for training in trainings:
-            generate_assembly(training.binary_path, training.function_path)
+            if not skip_assembly:
+                generate_assembly(training.binary_path, training.function_path)
             if not os.path.exists(training.model_path):
                 generate_model(training.function_path, training.model_path)
-        for test in tests:
-            generate_assembly(test.binary_path, test.function_path)
+        if not skip_assembly:
+            for test in tests:
+                generate_assembly(test.binary_path, test.function_path)
 
         for test in tests:
             test_funcs = [os.path.realpath(os.path.join(test.function_path, f)) for f
