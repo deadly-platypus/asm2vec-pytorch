@@ -196,6 +196,8 @@ def main(ipath, opath, print_results, skip_assembly):
         end = time.time()
         print(f"Total tests: {total_tests}")
         print(f"Total time: {end - start} seconds")
+        if not os.path.exists(os.path.dirname(opath)):
+            os.makedirs(os.path.dirname(opath), exist_ok=True)
         with open(opath, 'wb') as f:
             pickle.dump(tests, f)
     else:
