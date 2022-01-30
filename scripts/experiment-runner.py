@@ -273,7 +273,7 @@ def main(ipath, opath, print_results, skip_assembly, compute_f_score):
                     if found_similarity:
                         found_similarities[trained_binary].append(found_similarity)
             print(test.binary_path)
-            for trained_binary in ground_truth.key():
+            for trained_binary in ground_truth.keys():
                 ground_truth_labels = ground_truth[trained_binary]
                 prediction_labels = predictions[trained_binary]
                 print(f'\t{trained_binary.binary_path}: '
