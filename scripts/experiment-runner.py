@@ -277,11 +277,16 @@ def main(ipath, opath, print_results, skip_assembly, compute_f_score):
             for trained_binary in ground_truth.keys():
                 ground_truth_labels = ground_truth[trained_binary]
                 prediction_labels = predictions[trained_binary]
-                print(f'\t{trained_binary.binary_path}: '
-                      f'{f1_score(ground_truth_labels, prediction_labels, average="micro")}')
+                f_score = f1_score(ground_truth_labels, prediction_labels,
+                                   average="weighted")
+                print(f'\t{trained_binary.binary_path}: {f_score}')
                 print(f'\tMean found similarity: '
                       f'{statistics.mean(found_similarities[trained_binary])}')
                 print()
+                if f_score == 1.0:
+                    print('\tPerfect labels:')
+                    for i in range(len(ground_truth_labels)):
+                        print(f'\t\t{ground_truth_labels[i]} <--> {prediction_labels[i]}')
 
 
 if __name__ == '__main__':
