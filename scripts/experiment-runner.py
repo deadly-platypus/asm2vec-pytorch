@@ -240,6 +240,7 @@ def main(ipath, opath, print_results, skip_assembly, compute_f_score):
             ground_truth = dict()
             predictions = dict()
             found_similarities = dict()
+            labeled_similarities = dict()
             for function_file, results in test.results.items():
                 true_function_name = get_asm_function_name(function_file)
                 for trained_binary, function_similarities in results.items():
@@ -249,28 +250,34 @@ def main(ipath, opath, print_results, skip_assembly, compute_f_score):
                         predictions[trained_binary] = list()
                     if trained_binary not in found_similarities:
                         found_similarities[trained_binary] = list()
+                    if trained_binary not in labeled_similarities:
+                        labeled_similarities[trained_binary] = list()
 
                     index = 0
                     found = False
                     found_similarity = None
                     label_name = None
+                    label_similarity = None
                     for trained_func, similarity in sorted(function_similarities.items(),
                                                            reverse=True,
                                                            key=lambda a: a[1]):
                         candidate_name = get_asm_function_name(trained_func)
                         if index == 0:
                             label_name = candidate_name
+                            label_similarity = similarity
                         if candidate_name == true_function_name:
                             found = True
+                            found_similarity = similarity
                             if index < 2:
                                 label_name = candidate_name
-                                found_similarity = similarity
+                                label_similarity = similarity
                         index += 1
                     if not found:
                         true_function_name = "!!UNKNOWN!!"
-                        label_name = true_function_name
+                        # label_name = true_function_name
                     ground_truth[trained_binary].append(true_function_name)
                     predictions[trained_binary].append(label_name)
+                    labeled_similarities[trained_binary].append(label_similarity)
                     if found_similarity:
                         found_similarities[trained_binary].append(found_similarity)
             print(test.binary_path)
@@ -282,6 +289,8 @@ def main(ipath, opath, print_results, skip_assembly, compute_f_score):
                 print(f'\t{trained_binary.binary_path}: {f_score}')
                 print(f'\tMean found similarity: '
                       f'{statistics.mean(found_similarities[trained_binary])}')
+                print(f'\tMean label similarity: '
+                      f'{statistics.mean(labeled_similarities[trained_binary])}')
                 print()
                 if f_score == 1.0:
                     print('\tPerfect labels:')
