@@ -254,7 +254,6 @@ def main(ipath, opath, print_results, skip_assembly, compute_f_score):
                         labeled_similarities[trained_binary] = list()
 
                     index = 0
-                    found = False
                     found_similarity = None
                     label_name = None
                     label_similarity = None
@@ -266,15 +265,11 @@ def main(ipath, opath, print_results, skip_assembly, compute_f_score):
                             label_name = candidate_name
                             label_similarity = similarity
                         if candidate_name == true_function_name:
-                            found = True
                             found_similarity = similarity
                             if index < 2:
                                 label_name = candidate_name
                                 label_similarity = similarity
                         index += 1
-                    if not found:
-                        true_function_name = "!!UNKNOWN!!"
-                        # label_name = true_function_name
                     ground_truth[trained_binary].append(true_function_name)
                     predictions[trained_binary].append(label_name)
                     labeled_similarities[trained_binary].append(label_similarity)
