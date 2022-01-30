@@ -268,6 +268,7 @@ def main(ipath, opath, print_results, skip_assembly, compute_f_score):
                         index += 1
                     if not found:
                         true_function_name = "!!UNKNOWN!!"
+                        label_name = true_function_name
                     ground_truth[trained_binary].append(true_function_name)
                     predictions[trained_binary].append(label_name)
                     if found_similarity:
