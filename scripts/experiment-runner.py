@@ -8,6 +8,8 @@ import concurrent.futures
 import multiprocessing
 import re
 import time
+from sklearn.metrics import f1_score
+import statistics
 
 import asm2vec
 
@@ -108,8 +110,10 @@ def compare_functions(func1, func2, mpath):
 @click.option('-p', '--print-results', 'print_results',
               help='Run experiment or print results', default=False, is_flag=True)
 @click.option('--skip-assembly', 'skip_assembly', default=False, is_flag=True)
-def main(ipath, opath, print_results, skip_assembly):
-    if not print_results:
+@click.option('--compute-fscore', "compute_f_score", help='Compute F-Score of results',
+              default=False, is_flag=True)
+def main(ipath, opath, print_results, skip_assembly, compute_f_score):
+    if not print_results and not compute_f_score:
         if opath is None:
             raise RuntimeError("Output must be specified")
         with open(ipath, 'r') as f:
@@ -200,7 +204,7 @@ def main(ipath, opath, print_results, skip_assembly):
             os.makedirs(os.path.dirname(opath), exist_ok=True)
         with open(opath, 'wb') as f:
             pickle.dump(tests, f)
-    else:
+    elif print_results:
         with open(ipath, 'rb') as f:
             tests = pickle.load(f)
         total_tests = 0
@@ -228,6 +232,55 @@ def main(ipath, opath, print_results, skip_assembly):
                     else:
                         print(f"\t\t{trained_binary.binary_path}: N! {index} / {len(results)}")
         print(f"Total tests: {total_tests}")
+    elif compute_f_score:
+        with open(ipath, 'rb') as f:
+            tests = pickle.load(f);
+
+        for test in tests:
+            ground_truth = dict()
+            predictions = dict()
+            found_similarities = dict()
+            for function_file, results in test.results.items():
+                true_function_name = get_asm_function_name(function_file)
+                for trained_binary, function_similarities in results.items():
+                    if trained_binary not in ground_truth:
+                        ground_truth[trained_binary] = list()
+                    if trained_binary not in predictions:
+                        predictions[trained_binary] = list()
+                    if trained_binary not in found_similarities:
+                        found_similarities[trained_binary] = list()
+
+                    index = 0
+                    found = False
+                    found_similarity = None
+                    label_name = None
+                    for trained_func, similarity in sorted(function_similarities.items(),
+                                                           reverse=True,
+                                                           key=lambda a: a[1]):
+                        candidate_name = get_asm_function_name(trained_func)
+                        if index == 0:
+                            label_name = candidate_name
+                        if candidate_name == true_function_name:
+                            found = True
+                            if index < 2:
+                                label_name = candidate_name
+                                found_similarity = similarity
+                        index += 1
+                    if not found:
+                        true_function_name = "!!UNKNOWN!!"
+                    ground_truth[trained_binary].append(true_function_name)
+                    predictions[trained_binary].append(label_name)
+                    if found_similarity:
+                        found_similarities[trained_binary].append(found_similarity)
+            print(test.binary_path)
+            for trained_binary in ground_truth.key():
+                ground_truth_labels = ground_truth[trained_binary]
+                prediction_labels = predictions[trained_binary]
+                print(f'\t{trained_binary.binary_path}: '
+                      f'{f1_score(ground_truth_labels, prediction_labels)}')
+                print(f'\tMean found similarity: '
+                      f'{statistics.mean(found_similarities[trained_binary])}')
+                print()
 
 
 if __name__ == '__main__':
