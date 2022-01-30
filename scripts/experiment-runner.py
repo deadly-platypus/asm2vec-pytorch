@@ -277,7 +277,7 @@ def main(ipath, opath, print_results, skip_assembly, compute_f_score):
                 ground_truth_labels = ground_truth[trained_binary]
                 prediction_labels = predictions[trained_binary]
                 print(f'\t{trained_binary.binary_path}: '
-                      f'{f1_score(ground_truth_labels, prediction_labels)}')
+                      f'{f1_score(ground_truth_labels, prediction_labels, average=None)}')
                 print(f'\tMean found similarity: '
                       f'{statistics.mean(found_similarities[trained_binary])}')
                 print()
